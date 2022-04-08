@@ -6,6 +6,6 @@ from decorators import login_required, access_level
 
 
 @app.route('/status/', methods = ['GET'])
-async def registration():
+async def status():
     ping = await Bot().ping()
     return render_template('status.html', ping = ping)
