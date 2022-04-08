@@ -18,4 +18,4 @@ def index():
 from user.routes import *
 
 if __name__ == "__main__":
-    app.run(threaded = True, port = 1000)
+    app.run(threaded = True, port = 8080)
