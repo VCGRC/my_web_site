@@ -7,7 +7,8 @@ load_dotenv(find_dotenv())
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
-cluster = pymongo.MongoClient(os.environ.get('MONGO_URI'))
+# cluster = pymongo.MongoClient(os.environ.get('MONGO_URI'))
+cluster = pymongo.MongoClient('localhost')
 
 @app.route('/', methods = ['GET'])
 def index():
