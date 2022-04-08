@@ -12,26 +12,37 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">o7planning</a>
+    <a class="navbar-brand" href="">Japanese house</a>
 
     <!-- Left -->
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-          <a class="nav-link">Java</a>
+          <a class="nav-link" href="status">Status</a>
       </li>
       <li class="nav-item">
           <a class="nav-link">C/C++</a>
       </li>
     </ul>
     <!-- Right -->
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item">
-        <a class="nav-link">Tom</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link">Logout</a>
-      </li>
-    </ul>
+    {% if 'logged_in' in session%}
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link">{{session['user']['username']}}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="user/signout">Logout</a>
+        </li>
+      </ul>
+    {% else %}
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="registration">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="login">Login</a>
+        </li>
+      </ul>
+    {% endif %}
   </nav>
   {% block body %}
   {% endblock%}
