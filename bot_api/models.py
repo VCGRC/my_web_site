@@ -13,4 +13,4 @@ class Bot:
     async def ping(self) -> float:
         ping = await ipc_client.request('ping')
 
-        return ping 
+        return str(ping) 
