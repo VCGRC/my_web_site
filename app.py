@@ -13,6 +13,7 @@ cluster = pymongo.MongoClient('localhost')
 @app.route('/', methods = ['GET'])
 def index():
     return render_template('index.html')
+    #href="{{url_for('status')}}"
 
 
 from user.routes import *
