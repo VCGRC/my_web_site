@@ -7,13 +7,13 @@
     
         
 
-        <div class="d-flex flex-column align-self-center" style="width: 400px;">
+        <div class="d-flex flex-column align-self-center" style="width: 50%;">
             {% if 'logged_in' in session and session['user']['access_level']>= 10%}
             
                 <a type="button" class="btn btn-success" href="{{url_for('create_news')}}">Добавить новость</a> 
             {% endif %}
             {% for new in news %}
-            <div class="card">
+            <div class="card align-items-center">
                 <div class="card-body">
                     <h5 class="card-title">{{ new['title'] }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{new['create_date']}}</h6>
