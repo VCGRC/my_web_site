@@ -10,7 +10,7 @@ async def login_required(f):
         else:
             return await redirect('/')
 
-    return await wrap
+    return wrap
 
 async def access_level(level = 0):
     async def decorator(f):
