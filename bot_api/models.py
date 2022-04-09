@@ -6,7 +6,7 @@ from nextcord.ext import ipc
 
 
 user_collection = cluster.web.status
-ipc_client = ipc.Client(secret_key=app.secret_key)
+ipc_client = ipc.Client(secret_key=app.secret_key, port=8765)
 
 class Bot:
 
