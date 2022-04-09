@@ -1,17 +1,6 @@
 from functools import wraps
 from quart import Quart, redirect, render_template, session, request, url_for
 from app import app
-# from quart_auth import login_required
-
-# def login_required(fn):
-#     @wraps(fn)
-#     async def wrapper(*args, **kwargs):
-#         if session.get("user_id") is None:
-#             return redirect('/')
-#         else:
-#             return await fn(*args, **kwargs)
-
-#     return wrapper
 
 def login_required(f):
     @wraps(f)
