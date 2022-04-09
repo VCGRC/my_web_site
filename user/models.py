@@ -44,7 +44,7 @@ class User:
 
     async def login(self):
 
-        data = await request.form.get('email')
+        data = await request.form['email']
         print(data)
         user = await user_collection.find_one({'email':data['email']})
 
