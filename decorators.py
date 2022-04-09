@@ -8,7 +8,7 @@ def login_required(f):
         if 'logged_in' in session:
             return await f(*args, **kwargs)
         else:
-            return await redirect('/')
+            return redirect('/')
 
     return wrap
 
@@ -20,8 +20,8 @@ def access_level(level = 0):
                 if session['user']['access_level']>=level:
                     return await f(*args, **kwargs)
                 else:
-                    return  await redirect('/')
+                    return redirect('/')
             else:
-                return await redirect('/') 
+                return redirect('/') 
         return wrap
     return decorator
