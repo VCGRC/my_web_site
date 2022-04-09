@@ -6,11 +6,11 @@ async def login_required(f):
     @wraps(f)
     async def wrap(*args, **kwargs):
         if 'logged_in' in session:
-            return f(*args, **kwargs)
+            return await f(*args, **kwargs)
         else:
-            return redirect('/')
+            return await redirect('/')
 
-    return wrap
+    return await wrap
 
 async def access_level(level = 0):
     async def decorator(f):
@@ -18,10 +18,10 @@ async def access_level(level = 0):
         async def wrap(*args, **kwargs):
             if 'logged_in' in session:
                 if session['user']['access_level']>=level:
-                    return f(*args, **kwargs)
+                    return await f(*args, **kwargs)
                 else:
-                    return redirect('/')
+                    return  await redirect('/')
             else:
-                return redirect('/') 
-        return wrap
-    return decorator
+                return await redirect('/') 
+        return await wrap
+    return await decorator
