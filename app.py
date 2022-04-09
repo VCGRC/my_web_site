@@ -20,7 +20,7 @@ async def index():
     return await render_template('index.html', news = news)
 
 @app.route('/create_news/', methods = ['GET', 'POST'])
-async def index():
+async def create_news():
     if request.method == 'GET':
         return await render_template('create_news.html')
 
