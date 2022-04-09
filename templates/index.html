@@ -7,7 +7,7 @@
     
         
 
-        <div class="d-flex flex-column align-self-center">
+        <div class="d-flex flex-column align-self-center" style="width: 400px;">
             {% if 'logged_in' in session and session['user']['access_level']>= 10%}
             
                 <a type="button" class="btn btn-success" href="{{url_for('create_news')}}">Добавить новость</a> 
