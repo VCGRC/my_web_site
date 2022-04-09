@@ -11,6 +11,9 @@
         {% endif %}
 
         {% for new in news %}
+            {{new}}
+        {% endfor %}
+        {% for new in news %}
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">{{ new['title'] }}</h5>
