@@ -16,12 +16,13 @@ class User:
 
     async def signup(self):
 
+        data = await request.form
         user = {
             "_id":uuid.uuid4().hex,
-            "name":request.form.get('name'),
-            "email":request.form.get('email'),
-            "username":request.form.get('username'),
-            "password":request.form.get('password'),
+            "name":data['name'],
+            "email":data['email'],
+            "username":data['username'],
+            "password":data['password'],
             "access_level":0
         }
 
@@ -34,7 +35,7 @@ class User:
             return jsonify({"error":"Username already in base"}), 400
 
         if await user_collection.insert_one(user):
-            return self.start_session(user)
+            return await self.start_session(user)
 
         return jsonify({"error":"Sign up failed. Contact administration"}), 400
 

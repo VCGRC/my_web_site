@@ -29,7 +29,7 @@ async def create_news():
     if request.method == 'POST':
 
         news_collection = cluster.web.news
-        data = await request.get_data()
+        data = await request.form
         record = {
             'create_date':datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
             'text':data['text'],
