@@ -2,7 +2,7 @@ from functools import wraps
 from flask import Flask, redirect, render_template, session, request, url_for
 from app import app
 
-async def login_required(f):
+def login_required(f):
     @wraps(f)
     async def wrap(*args, **kwargs):
         if 'logged_in' in session:
