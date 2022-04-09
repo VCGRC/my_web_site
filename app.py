@@ -15,7 +15,7 @@ cluster = MongoClient('localhost')
 @app.route('/', methods = ['GET'])
 async def index():
     news_collection = cluster.web.news
-
+    print(session)
     news = news_collection.find().sort('create_date', pymongo.DESCENDING).limit(10)
     return await render_template('index.html', news = news)
 
