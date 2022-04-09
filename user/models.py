@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, redirect, request, session
+from quart import Quart, jsonify, redirect, request, session
 from passlib.hash import pbkdf2_sha256
 import uuid
 from app import cluster
