@@ -10,15 +10,17 @@
             <a type="button" class="btn btn-success" href="{{url_for('create_news')}}">Добавить новость</a> 
         {% endif %}
 
-        {% for new in news %}
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{ new['title'] }}</h5>
-                <h6 class="card-subtitle mb-2 text-muted">{{new['create_date']}}</h6>
-                <p class="card-text">{{ new['text'] }}</p>
+        <div class="d-flex flex-column align-self-center">
+            {% for new in news %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ new['title'] }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{new['create_date']}}</h6>
+                    <p class="card-text">{{ new['text'] }}</p>
+                </div>
             </div>
-          </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
 
 
 </div>
