@@ -44,7 +44,7 @@ class User:
 
     async def login(self):
 
-        data = await request.get_data()
+        data = await request.get_json()
         print(data)
         user = await user_collection.find_one({'email':data['email']})
 
