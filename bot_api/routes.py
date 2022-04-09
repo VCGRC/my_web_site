@@ -7,7 +7,6 @@ import pdb
 
 
 @app.route('/status/', methods = ['GET'])
-@access_level
 async def status():
     # pdb.set_trace()
     ping = await Bot().ping()
