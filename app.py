@@ -12,7 +12,7 @@ cluster = pymongo.MongoClient('localhost')
 
 @app.route('/', methods = ['GET'])
 async def index():
-    return render_template('index.html')
+    return await render_template('index.html')
     
 
 

@@ -6,25 +6,25 @@ from decorators import login_required, access_level
 
 @app.route('/registration/', methods = ['GET'])
 async def registration():
-    return render_template('signup.html')
+    return await render_template('signup.html')
 
 @app.route('/profile/', methods = ['GET'])
 @login_required
 async def profile():
-    return render_template('profile.html')
+    return await render_template('profile.html')
 
 @app.route('/user/signup', methods = ['POST'])
 async def signup():
-    return User().signup()
+    return await User().signup()
 
 @app.route('/user/signout', methods = ['GET'])
 async def signout():
-    return User().signout()
+    return await User().signout()
 
 @app.route('/user/login', methods = ['POST'])
 async def login_back():
-    return User().login()
+    return await User().login()
 
 @app.route('/login/', methods = ['GET'])
 async def login():
-    return render_template('login.html')
+    return await render_template('login.html')

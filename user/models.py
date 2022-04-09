@@ -7,14 +7,14 @@ user_collection = cluster.web.users
 
 class User:
 
-    def start_session(self, user):
+    async def start_session(self, user):
         del user['password']
         session['logged_in'] = True
         session['user'] = user
         return jsonify(user), 200
 
 
-    def signup(self):
+    async def signup(self):
 
         user = {
             "_id":uuid.uuid4().hex,
@@ -38,11 +38,11 @@ class User:
 
         return jsonify({"error":"Sign up failed. Contact administration"}), 400
 
-    def signout(self):
+    async def signout(self):
         session.clear()
         return redirect('/')
 
-    def login(self):
+    async def login(self):
         user = user_collection.find_one({'email':request.form.get('email')})
 
         if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
