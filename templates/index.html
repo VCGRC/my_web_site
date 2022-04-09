@@ -2,27 +2,21 @@
 {% block title %}Main{% endblock %}
 {% block body %}
 
-<div class="d-flex justify-content-center align-items-center container ">
-
-    
+    <div class="d-flex flex-column align-self-center" style="width: 50%;">
+        {% if 'logged_in' in session and session['user']['access_level']>= 10%}
         
+            <a type="button" class="btn btn-success" href="{{url_for('create_news')}}">Добавить новость</a> 
+        {% endif %}
 
-        <div class="d-flex flex-column align-self-center" style="width: 50%;">
-            {% if 'logged_in' in session and session['user']['access_level']>= 10%}
-            
-                <a type="button" class="btn btn-success" href="{{url_for('create_news')}}">Добавить новость</a> 
-            {% endif %}
-            {% for new in news %}
-            <div class="card align-items-center">
-                <div class="card-body">
-                    <h5 class="card-title">{{ new['title'] }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{new['create_date']}}</h6>
-                    <p class="card-text">{{ new['text'] }}</p>
-                </div>
+        {% for new in news %}
+        <div class="card align-items-center">
+            <div class="card-body">
+                <h5 class="card-title">{{ new['title'] }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{new['create_date']}}</h6>
+                <p class="card-text">{{ new['text'] }}</p>
             </div>
-            {% endfor %}
         </div>
+        {% endfor %}
+    </div>
 
-
-</div>
 {% endblock %}
