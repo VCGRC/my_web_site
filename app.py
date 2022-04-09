@@ -35,10 +35,8 @@ async def create_news():
             'text':data['text'],
             'title':data['title']
         }
-        print(record)
 
-        result = news_collection.insert_one(record)
-        print(result)
+        news_collection.insert_one(record)
         return redirect('/')
     
 
