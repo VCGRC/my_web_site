@@ -45,6 +45,7 @@ class User:
     async def login(self):
 
         data = await request.get_data()
+        print(data)
         user = await user_collection.find_one({'email':data['email']})
 
         if user and pbkdf2_sha256.verify(data['password'], user['password']):
