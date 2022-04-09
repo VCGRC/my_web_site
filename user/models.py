@@ -33,7 +33,7 @@ class User:
         if user_collection.find_one({"username":user['username']}):
             return jsonify({"error":"Username already in base"}), 400
 
-        if user_collection.insert_one(user):
+        if await user_collection.insert_one(user):
             return self.start_session(user)
 
         return jsonify({"error":"Sign up failed. Contact administration"}), 400
@@ -43,7 +43,7 @@ class User:
         return redirect('/')
 
     async def login(self):
-        user = user_collection.find_one({'email':request.form.get('email')})
+        user = await user_collection.find_one({'email':request.form.get('email')})
 
         if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
             return self.start_session(user)

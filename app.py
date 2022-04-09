@@ -1,5 +1,5 @@
 from quart import Quart, request, render_template, redirect, url_for
-import pymongo
+from motor.motor_tornado import MotorClient
 import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
@@ -8,7 +8,7 @@ app = Quart(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
 
 # cluster = pymongo.MongoClient(os.environ.get('MONGO_URI'))
-cluster = pymongo.MongoClient('localhost')
+cluster = MotorClient('localhost')
 
 @app.route('/', methods = ['GET'])
 async def index():
