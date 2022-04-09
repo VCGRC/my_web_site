@@ -48,6 +48,6 @@ class User:
         user = user_collection.find_one({'email':data['email']})
 
         if user and pbkdf2_sha256.verify(data['password'], user['password']):
-            return self.start_session(user)
+            return await self.start_session(user)
 
         return jsonify({'error':"Ivalid login data"}), 401
