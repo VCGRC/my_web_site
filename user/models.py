@@ -43,9 +43,11 @@ class User:
         return redirect('/')
 
     async def login(self):
-        user = await user_collection.find_one({'email':request.form.get('email')})
 
-        if user and pbkdf2_sha256.verify(request.form.get('password'), user['password']):
+        data = await request.get_json()
+        user = await user_collection.find_one({'email':data['email']})
+
+        if user and pbkdf2_sha256.verify(data['password'], user['password']):
             return self.start_session(user)
 
         return jsonify({'error':"Ivalid login data"}), 401
