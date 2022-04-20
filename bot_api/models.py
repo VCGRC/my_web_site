@@ -1,14 +1,16 @@
 import pdb
-from quart import Quart, jsonify, redirect, request, session
 from passlib.hash import pbkdf2_sha256
 import uuid
 from app import cluster, app
 from nextcord.ext import ipc
 import pdb
+import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 
 user_collection = cluster.web.status
-ipc_client = ipc.Client(secret_key=app.secret_key)
+ipc_client = ipc.Client(secret_key=os.environ.get('SECRET_KEY'))
 
 class Bot:
 
