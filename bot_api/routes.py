@@ -1,5 +1,6 @@
 from functools import wraps
 from fastapi import FastAPI, Request
+from fastapi.encoders import jsonable_encoder
 from app import app
 from bot_api.models import Bot
 from decorators import login_required, access_level
@@ -12,4 +13,4 @@ async def status(request:Request):
     ping = await Bot().ping()
     # return ping
     print(ping)
-    return ping
+    return jsonable_encoder(ping)
