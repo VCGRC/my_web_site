@@ -7,7 +7,7 @@ from decorators import login_required, access_level
 import pdb
 
 
-@app.route('/status/', methods = ['GET'])
+@app.get('/status/', methods = ['GET'])
 async def status(request:Request):
     # pdb.set_trace()
     ping = await Bot().ping()
