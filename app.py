@@ -6,6 +6,7 @@ from pymongo import MongoClient
 import os
 from dotenv import load_dotenv, find_dotenv
 import datetime
+import uvicorn
 load_dotenv(find_dotenv())
 
 app = FastAPI()
@@ -61,5 +62,5 @@ async def get(request:Request):
 # from user.routes import *
 # from bot_api.routes import *
 
-# if __name__ == "__main__":
-#     app.run(threaded = True, port = 8080)
+if __name__ == "__main__":
+    uvicorn.run(app, host='127.0.0.1', port = 8080)
