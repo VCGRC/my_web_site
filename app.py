@@ -61,5 +61,5 @@ async def get(request:Request):
 # from user.routes import *
 # from bot_api.routes import *
 
-if __name__ == "__main__":
-    app.run(threaded = True, port = 8080)
+# if __name__ == "__main__":
+#     app.run(threaded = True, port = 8080)
