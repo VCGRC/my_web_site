@@ -8,7 +8,7 @@ from dotenv import load_dotenv, find_dotenv
 import datetime
 load_dotenv(find_dotenv())
 
-app = FastAPI(__name__)
+app = FastAPI()
 
 origins = ["*"]
 
