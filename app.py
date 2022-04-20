@@ -42,6 +42,7 @@ async def create_news():
 async def get():
     news_collection = cluster.web.news
     news = news_collection.find().sort('create_date', pymongo.DESCENDING).limit(10)
+    print([x for x in news])
     return jsonify([x for x in news])
 
 from user.routes import *
