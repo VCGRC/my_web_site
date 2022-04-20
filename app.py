@@ -44,7 +44,7 @@ async def get():
     news = news_collection.find().sort('create_date', pymongo.DESCENDING).limit(10)
     list_of_news = []
     for new in news:
-        list_of_news.append(new)
+        list_of_news.append({'title':new['title'], 'create_date':new['create_date'], 'text':new['text'], '_id':new['_id']})
     return jsonify(list_of_news)
 
 from user.routes import *
