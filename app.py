@@ -1,13 +1,15 @@
-from quart import Quart, request, render_template, redirect, url_for
+from quart import Quart, request, render_template, redirect, url_for, jsonify
 import pymongo
 from pymongo import MongoClient
 import os
 from dotenv import load_dotenv, find_dotenv
 import datetime
+from quart_cors import cors
 load_dotenv(find_dotenv())
 
 app = Quart(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
+cors(app)
 
 # cluster = pymongo.MongoClient(os.environ.get('MONGO_URI'))
 cluster = MongoClient('localhost')
@@ -36,7 +38,9 @@ async def create_news():
         news_collection.insert_one(record)
         return redirect('/')
     
-
+@app.route('/get', methods = ['GET'])
+async def get():
+    return jsonify([{'key':'key','value':'value', '_id':'141'}])
 
 from user.routes import *
 from bot_api.routes import *
