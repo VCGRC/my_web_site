@@ -38,9 +38,11 @@ async def create_news():
         news_collection.insert_one(record)
         return redirect('/')
     
-@app.route('/get', methods = ['GET'])
+@app.route('/api/v1/news/get', methods = ['GET'])
 async def get():
-    return jsonify([{'key':'key','value':'value', '_id':'141'}])
+    news_collection = cluster.web.news
+    news = news_collection.find().sort('create_date', pymongo.DESCENDING).limit(10)
+    return jsonify(news)
 
 from user.routes import *
 from bot_api.routes import *
