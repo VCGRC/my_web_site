@@ -11,4 +11,5 @@ async def status(request:Request):
     # pdb.set_trace()
     ping = await Bot().ping()
     # return ping
+    print(ping)
     return ping
