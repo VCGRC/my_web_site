@@ -60,7 +60,7 @@ async def get(request:Request):
     return jsonable_encoder(list_of_news)
 
 # from user.routes import *
-# from bot_api.routes import *
+from bot_api.routes import *
 
 if __name__ == "__main__":
     uvicorn.run(app, host='127.0.0.1', port = 8080)
