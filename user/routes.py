@@ -2,13 +2,13 @@ from functools import wraps
 from fastapi import FastAPI, Request
 from fastapi.encoders import jsonable_encoder
 from app import app
-from user.models import UserCommands
+from user.models import UserCommands, User
 
 
 
 @app.post('/api/v1/user/register')
-async def signup(request:Request):
-    return await UserCommands().register(request)
+async def signup(user:User):
+    return await UserCommands().register(user)
 
 # @app.route('/user/signout', methods = ['GET'])
 # async def signout():

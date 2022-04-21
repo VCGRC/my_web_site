@@ -16,9 +16,9 @@ class User(BaseModel):
 
 class UserCommands:
 
-    async def register(self, request:Request):
+    async def register(self, user:User):
 
-        data = await request.form()
+        data = user
         user = {
             "_id":uuid.uuid4().hex,
             "name":data['name'],
