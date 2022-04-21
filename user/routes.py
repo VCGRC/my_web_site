@@ -2,15 +2,13 @@ from functools import wraps
 from fastapi import FastAPI, Request, Security
 import fastapi
 from fastapi.encoders import jsonable_encoder
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from app import app
 import os
 from dotenv import load_dotenv, find_dotenv
 from user.models import UserCommands, User
-from fastapi_jwt import JwtAuthorizationCredentials, JwtAccessBearer
-load_dotenv(find_dotenv())
 
-access_security = JwtAccessBearer(secret_key=os.environ.get('SECRET_KEY'), auto_error=True)
+oauth2schema = OAuth2PasswordBearer(tokenUrl='/api/v1/user/me')
 
 
 @app.post('/api/v1/user/register')
@@ -27,5 +25,5 @@ async def login(form: OAuth2PasswordRequestForm = fastapi.Depends()):
 
 
 @app.get('/api/v1/user/me')
-async def get_me(credentials: JwtAuthorizationCredentials = Security(access_security)):
-    return await UserCommands().get_user_by_token(credentials)
+async def get_me(token:fastapi.Depends(oauth2schema)):
+    return await UserCommands().get_user_by_token(token)
