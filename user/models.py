@@ -38,7 +38,7 @@ class UserCommands:
         if user_collection.find_one({"username":user['username']}):
             raise HTTPException(status_code=400, detail='Username already in base')
 
-        if await user_collection.insert_one(user):
+        if user_collection.insert_one(user):
             return jsonable_encoder(user)
 
         raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
