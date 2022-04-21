@@ -4,10 +4,13 @@ import fastapi
 from fastapi.encoders import jsonable_encoder
 from fastapi.security import OAuth2PasswordRequestForm
 from app import app
+import os
+from dotenv import load_dotenv, find_dotenv
 from user.models import UserCommands, User
-from user.routes import access_security
-from fastapi_jwt import JwtAuthorizationCredentials
+from fastapi_jwt import JwtAuthorizationCredentials, JwtAccessBearer
+load_dotenv(find_dotenv())
 
+access_security = JwtAccessBearer(secret_key=os.environ.get('SECRET_KEY'), auto_error=True)
 
 
 @app.post('/api/v1/user/register')
