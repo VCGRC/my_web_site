@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from passlib.hash import pbkdf2_sha256
 from fastapi.encoders import jsonable_encoder
+from fastapi.exceptions import HTTPException
 import uuid
 from pydantic import BaseModel
 from app import cluster
@@ -32,15 +33,15 @@ class UserCommands:
         user['password'] = pbkdf2_sha256.encrypt(user['password'])
 
         if user_collection.find_one({"email":user['email']}):
-            return jsonable_encoder({"error":"Email already in base"}), 400
+            raise HTTPException(status_code=400, detail='Email already in use')
 
         if user_collection.find_one({"username":user['username']}):
-            return jsonable_encoder({"error":"Username already in base"}), 400
+            raise HTTPException(status_code=400, detail='Username already in base')
 
         if await user_collection.insert_one(user):
             return jsonable_encoder(user)
 
-        return jsonable_encoder({"error":"Sign up failed. Contact administration"}), 400
+        raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
 
     # async def signout(self):
     #     session.clear()
