@@ -56,7 +56,7 @@ async def get_news(request:Request):
     list_of_news = []
     for new in news:
         list_of_news.append({'title':new['title'], 'create_date':new['create_date'], 'text':new['text'], '_id':new['_id']})
-        print({ 'create_date':new['create_date'],  '_id':new['_id']})
+        print({'title':new['title'], 'create_date':new['create_date'], 'text':new['text'], '_id':new['_id']})
     return list_of_news
 
 # from user.routes import *
