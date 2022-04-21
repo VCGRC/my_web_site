@@ -33,6 +33,7 @@ class UserCommands:
             "username":data.username,
             "password":data.password,
             "access_level":0
+            # 'token': access_security.create_access_token(subject={'email':user['email'], 'password':user['password']})
         }
 
         user['password'] = pbkdf2_sha256.encrypt(user['password'])
@@ -63,3 +64,16 @@ class UserCommands:
             return await self.get_token(user)
 
         raise HTTPException(status_code=401, detail='Ivalid login data')
+
+    async def get_user_by_token(self, credentials: JwtAuthorizationCredentials = Security(access_security)):
+        data = {"email": credentials["email"], "password": credentials["password"]}
+
+        user = user_collection.find_one({'email':data['email']})
+
+        if user is None:
+            raise HTTPException(status_code=404, detail='Bad token')
+
+        if user and pbkdf2_sha256.verify(data['password'], user['password']):
+            return user
+
+        raise HTTPException(status_code=404, detail='Bad token')
