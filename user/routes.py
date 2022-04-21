@@ -6,7 +6,7 @@ from user.models import UserCommands
 
 
 
-@app.post('/api/v1/user/register', methods = ['POST'])
+@app.post('/api/v1/user/register')
 async def signup(request:Request):
     return await UserCommands().register(request)
 
