@@ -27,5 +27,5 @@ async def login(form: OAuth2PasswordRequestForm = fastapi.Depends()):
 
 
 @app.get('/api/v1/user/me')
-async def login(credentials: JwtAuthorizationCredentials = Security(access_security)):
+async def get_me(credentials: JwtAuthorizationCredentials = Security(access_security)):
     return await UserCommands().get_user_by_token(credentials)
