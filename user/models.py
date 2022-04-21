@@ -1,11 +1,16 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Security
 from passlib.hash import pbkdf2_sha256
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import HTTPException
 import uuid
+import os
+from dotenv import load_dotenv, find_dotenv
 from pydantic import BaseModel
+from fastapi_jwt import JwtAuthorizationCredentials, JwtAccessBearer
 from app import cluster
+load_dotenv(find_dotenv())
 
+access_security = JwtAccessBearer(secret_key=os.environ.get('SECRET_KEY'), auto_error=True)
 user_collection = cluster.web.users
 
 class User(BaseModel):
@@ -43,15 +48,18 @@ class UserCommands:
 
         raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
 
-    # async def signout(self):
-    #     session.clear()
-    #     return redirect('/')
+    async def get_token(self, user:dict):
+        token = access_security.create_access_token(subject={'email':user['email'], 'password':user['password']})
+        return dict(access_token = token)
 
     async def login(self, email:str, password:str):
 
         user = user_collection.find_one({'email':email})
 
+        if user is None:
+            raise HTTPException(status_code=401, detail='No such email')
+
         if user and pbkdf2_sha256.verify(password, user['password']):
-            return {'status':'ok'}
+            return await self.get_token(user)
 
         raise HTTPException(status_code=401, detail='Ivalid login data')
