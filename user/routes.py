@@ -18,4 +18,4 @@ async def signup(user:User):
 
 @app.post('/api/v1/user/login')
 async def login(form: OAuth2PasswordRequestForm = fastapi.Depends()):
-    return await UserCommands().login(form.email, form.password)
+    return await UserCommands().login(form.username, form.password)
