@@ -1,22 +1,24 @@
-from quart import Quart, jsonify, redirect, request, session
+from fastapi import FastAPI, Request
 from passlib.hash import pbkdf2_sha256
+from fastapi.encoders import jsonable_encoder
 import uuid
+from pydantic import BaseModel
 from app import cluster
 
 user_collection = cluster.web.users
 
-class User:
+class User(BaseModel):
+    _id: str
+    name: str
+    email: str
+    password: str
+    access_level: int
 
-    async def start_session(self, user):
-        del user['password']
-        session['logged_in'] = True
-        session['user'] = user
-        return jsonify(user), 200
+class UserCommands:
 
+    async def register(self, request:Request):
 
-    async def signup(self):
-
-        data = await request.form
+        data = await request.form()
         user = {
             "_id":uuid.uuid4().hex,
             "name":data['name'],
@@ -29,26 +31,26 @@ class User:
         user['password'] = pbkdf2_sha256.encrypt(user['password'])
 
         if user_collection.find_one({"email":user['email']}):
-            return jsonify({"error":"Email already in base"}), 400
+            return jsonable_encoder({"error":"Email already in base"}), 400
 
         if user_collection.find_one({"username":user['username']}):
-            return jsonify({"error":"Username already in base"}), 400
+            return jsonable_encoder({"error":"Username already in base"}), 400
 
         if await user_collection.insert_one(user):
-            return await self.start_session(user)
+            return jsonable_encoder(user)
 
-        return jsonify({"error":"Sign up failed. Contact administration"}), 400
+        return jsonable_encoder({"error":"Sign up failed. Contact administration"}), 400
 
-    async def signout(self):
-        session.clear()
-        return redirect('/')
+    # async def signout(self):
+    #     session.clear()
+    #     return redirect('/')
 
-    async def login(self):
+    # async def login(self):
 
-        data = await request.form
-        user = user_collection.find_one({'email':data['email']})
+    #     data = await request.form
+    #     user = user_collection.find_one({'email':data['email']})
 
-        if user and pbkdf2_sha256.verify(data['password'], user['password']):
-            return await self.start_session(user)
+    #     if user and pbkdf2_sha256.verify(data['password'], user['password']):
+    #         return await self.start_session(user)
 
-        return jsonify({'error':"Ivalid login data"}), 401
+    #     return jsonify({'error':"Ivalid login data"}), 401
