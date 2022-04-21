@@ -2,7 +2,7 @@ from functools import wraps
 from fastapi import FastAPI, Request
 import fastapi
 from fastapi.encoders import jsonable_encoder
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordRequestForm
 from app import app
 from user.models import UserCommands, User
 
@@ -17,5 +17,5 @@ async def signup(user:User):
 #     return await User().signout()
 
 @app.post('/api/v1/user/login')
-async def login(form: OAuth2PasswordBearer = fastapi.Depends()):
+async def login(form: OAuth2PasswordRequestForm = fastapi.Depends()):
     return await UserCommands().login(form.email, form.password)
