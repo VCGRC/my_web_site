@@ -52,11 +52,9 @@ cluster = MongoClient('localhost')
 async def get_news(request:Request):
     news_collection = cluster.web.news
     news = news_collection.find().sort('create_date', pymongo.DESCENDING).limit(10)
-    print('Привет мир')
     list_of_news = []
     for new in news:
         list_of_news.append({'title':new['title'], 'create_date':new['create_date'], 'text':new['text'], '_id':str(new['_id'])})
-        print({'title':new['title'], 'create_date':new['create_date'], 'text':new['text'], '_id':str(new['_id'])})
     return list_of_news
 
 # from user.routes import *
