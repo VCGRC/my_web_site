@@ -22,10 +22,10 @@ class UserCommands:
         data = user
         user = {
             "_id":uuid.uuid4().hex,
-            "name":data['name'],
-            "email":data['email'],
-            "username":data['username'],
-            "password":data['password'],
+            "name":data.name,
+            "email":data.email,
+            "username":data.username,
+            "password":data.password,
             "access_level":0
         }
 
