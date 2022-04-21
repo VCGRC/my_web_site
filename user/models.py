@@ -11,6 +11,7 @@ class User(BaseModel):
     _id: str
     name: str
     email: str
+    username: str
     password: str
     access_level: int
 
