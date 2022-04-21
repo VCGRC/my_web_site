@@ -47,12 +47,11 @@ class UserCommands:
     #     session.clear()
     #     return redirect('/')
 
-    # async def login(self):
+    async def login(self, email:str, password:str):
 
-    #     data = await request.form
-    #     user = user_collection.find_one({'email':data['email']})
+        user = user_collection.find_one({'email':email})
 
-    #     if user and pbkdf2_sha256.verify(data['password'], user['password']):
-    #         return await self.start_session(user)
+        if user and pbkdf2_sha256.verify(password, user['password']):
+            return {'status':'ok'}
 
-    #     return jsonify({'error':"Ivalid login data"}), 401
+        raise HTTPException(status_code=401, detail='Ivalid login data')

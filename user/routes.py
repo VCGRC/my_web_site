@@ -14,6 +14,6 @@ async def signup(user:User):
 # async def signout():
 #     return await User().signout()
 
-# @app.route('/user/login', methods = ['POST'])
-# async def login_back():
-#     return await User().login()
+@app.post('/api/v1/user/login')
+async def login_back(email:str, password:str):
+    return await UserCommands().login(email, password)
