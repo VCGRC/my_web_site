@@ -7,10 +7,7 @@ from decorators import login_required, access_level
 import pdb
 
 
-@app.get('/status/')
+@app.get('/api/v1/bot/status')
 async def status(request:Request):
-    # pdb.set_trace()
     ping = await Bot().ping()
-    # return ping
-    print(ping)
     return jsonable_encoder(ping)

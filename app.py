@@ -1,3 +1,4 @@
+from uuid import uuid4
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
@@ -33,6 +34,7 @@ class Article(BaseModel):
 async def create_new(article:Article):
     news_collection = cluster.web.news
     record = {
+        '_id':uuid4().hex,
         'create_date':datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S"),
         'text':article.text,
         'title':article.title
