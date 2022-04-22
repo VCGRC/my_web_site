@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 from user.models import UserCommands, User
 
-oauth2schema = OAuth2PasswordBearer(tokenUrl='/api/v1/user/me')
+
 
 
 @app.post('/api/v1/user/register')
@@ -24,6 +24,6 @@ async def login(form: OAuth2PasswordRequestForm = fastapi.Depends()):
     return await UserCommands().login(form.username, form.password)
 
 
-@app.get('/api/v1/user/me')
-async def get_me(token:fastapi.Depends(oauth2schema)):
-    return await UserCommands().get_user_by_token(token)
+@app.get('/api/v1/user/me', response_model=User)
+async def get_me(user:User = fastapi.Depends(UserCommands().get_user_by_token)):
+    return user

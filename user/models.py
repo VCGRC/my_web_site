@@ -1,16 +1,22 @@
 from fastapi import FastAPI, Request, Security
+import fastapi
 from passlib.hash import pbkdf2_sha256
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import HTTPException
+from fastapi.security import OAuth2PasswordBearer
 import uuid
 import os
 from dotenv import load_dotenv, find_dotenv
 from pydantic import BaseModel
-from fastapi_jwt import JwtAuthorizationCredentials, JwtAccessBearer
+import jwt
 from app import cluster
 load_dotenv(find_dotenv())
 
-access_security = JwtAccessBearer(secret_key=os.environ.get('SECRET_KEY'), auto_error=True)
+JWT_SECRET = os.environ.get('SECRET_KEY')
+instance = jwt.JWT()
+
+oauth2schema = OAuth2PasswordBearer(tokenUrl='/api/v1/user/me')
+
 user_collection = cluster.web.users
 
 class User(BaseModel):
@@ -50,7 +56,7 @@ class UserCommands:
         raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
 
     async def get_token(self, user:dict):
-        token = access_security.create_access_token(subject={'email':user['email'], 'password':user['password']})
+        token = instance.encode(user, JWT_SECRET)
         return dict(access_token = token)
 
     async def login(self, email:str, password:str):
@@ -65,15 +71,12 @@ class UserCommands:
 
         raise HTTPException(status_code=401, detail='Ivalid login data')
 
-    async def get_user_by_token(self, credentials: JwtAuthorizationCredentials = Security(access_security)):
-        data = {"email": credentials["email"], "password": credentials["password"]}
+    async def get_user_by_token(self,token:str = fastapi.Depends()):
+        try:
+            payload = instance.decode(token, JWT_SECRET, algorithms=['HS256'])
+            user = user_collection.find_one({'_id':payload['_id']})
 
-        user = user_collection.find_one({'email':data['email']})
-
-        if user is None:
-            raise HTTPException(status_code=404, detail='Bad token')
-
-        if user and pbkdf2_sha256.verify(data['password'], user['password']):
-            return user
-
-        raise HTTPException(status_code=404, detail='Bad token')
+        except:
+            raise HTTPException(status_code=401, detail='Ivalid email or password')
+        
+        return user
