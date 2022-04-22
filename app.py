@@ -1,6 +1,7 @@
 from uuid import uuid4
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.responses import FileResponse
 from fastapi.encoders import jsonable_encoder
 import pymongo
 from pymongo import MongoClient
@@ -14,6 +15,7 @@ load_dotenv(find_dotenv())
 app = FastAPI()
 
 origins = ["*"]
+favicon_path = 'logo192.png'
 
 app.add_middleware(
     CORSMiddleware,
@@ -73,6 +75,10 @@ async def get_news(request:Request):
 @app.get('/api/v1')
 async def root():
     return {"message":'Best api in the world'}
+
+@app.get('/logo192.png')
+async def favicon():
+    return FileResponse(favicon_path)
 
 from user.routes import *
 from bot_api.routes import *

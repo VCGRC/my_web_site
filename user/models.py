@@ -48,10 +48,13 @@ class UserCommands:
         if user_collection.find_one({"username":user['username']}):
             raise HTTPException(status_code=400, detail='Username already in base')
 
-        if user_collection.insert_one(user):
-            return await self.get_token(user)
+        try:
+            user_collection.insert_one(user)
+        except:
+            raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
+        return await self.get_token(user)
 
-        raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
+        
 
     async def get_token(self, user:dict):
         token = jwt.encode(user, JWT_SECRET)
