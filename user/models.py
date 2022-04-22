@@ -15,7 +15,7 @@ load_dotenv(find_dotenv())
 JWT_SECRET = os.environ.get('SECRET_KEY')
 instance = jwt.JWT()
 
-oauth2schema = OAuth2PasswordBearer(tokenUrl='/api/v1/user/me')
+oauth2schema = OAuth2PasswordBearer(tokenUrl='/api/v1/user/login')
 
 user_collection = cluster.web.users
 
