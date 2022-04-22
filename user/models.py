@@ -71,7 +71,7 @@ class UserCommands:
 
         raise HTTPException(status_code=401, detail='Ivalid login data')
 
-    async def get_user_by_token(self,token:str = fastapi.Depends()):
+    async def get_user_by_token(self,token:str = fastapi.Depends(oauth2schema)):
         try:
             payload = instance.decode(token, JWT_SECRET, algorithms=['HS256'])
             user = user_collection.find_one({'_id':payload['_id']})
