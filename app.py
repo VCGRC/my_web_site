@@ -74,7 +74,7 @@ async def get_news(request:Request):
 
 @app.get('/api/v1')
 async def root():
-    return {"message":'Best api in the world'}
+    return {"message":'Bot site'}
 
 @app.get('/logo192.png')
 async def favicon():
