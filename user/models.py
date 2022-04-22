@@ -12,9 +12,8 @@ import jwt
 from app import cluster
 load_dotenv(find_dotenv())
 
-JWT_SECRET = os.environ.get('SECRET_KEY')
+JWT_SECRET = jwt.AbstractJWKBase(os.environ.get('SECRET_KEY'))
 instance = jwt.JWT()
-
 oauth2schema = OAuth2PasswordBearer(tokenUrl='/api/v1/user/login')
 
 user_collection = cluster.web.users
