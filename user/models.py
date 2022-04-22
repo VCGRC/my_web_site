@@ -12,8 +12,7 @@ import jwt
 from app import cluster
 load_dotenv(find_dotenv())
 
-JWT_SECRET = jwt.AbstractJWKBase(os.environ.get('SECRET_KEY'))
-instance = jwt.JWT()
+JWT_SECRET = os.environ.get('SECRET_KEY')
 oauth2schema = OAuth2PasswordBearer(tokenUrl='/api/v1/user/login')
 
 user_collection = cluster.web.users
@@ -55,7 +54,7 @@ class UserCommands:
         raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
 
     async def get_token(self, user:dict):
-        token = instance.encode(user, JWT_SECRET)
+        token = jwt.encode(user, JWT_SECRET)
         return dict(access_token = token)
 
     async def login(self, email:str, password:str):
@@ -72,7 +71,7 @@ class UserCommands:
 
     async def get_user_by_token(self,token:str = fastapi.Depends(oauth2schema)):
         try:
-            payload = instance.decode(token, JWT_SECRET, algorithms=['HS256'])
+            payload = jwt.decode(token, JWT_SECRET, algorithms=['HS256'])
             user = user_collection.find_one({'_id':payload['_id']})
 
         except:
