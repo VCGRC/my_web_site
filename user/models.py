@@ -49,7 +49,7 @@ class UserCommands:
             raise HTTPException(status_code=400, detail='Username already in base')
 
         if user_collection.insert_one(user):
-            return jsonable_encoder(user)
+            return await self.get_token(user)
 
         raise HTTPException(status_code=400, detail='Sign up failed. Contact administration')
 
